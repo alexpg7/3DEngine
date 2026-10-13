@@ -1,0 +1,40 @@
+# Archivo OBJ que representa un cubo con caras de longitud 1.0
+# Centrado en el origen (Coordenadas de -0.5 a 0.5)
+
+# 1. Lista de Vértices (Posición X Y Z)
+v -0.5 -0.5  0.5
+v  0.5 -0.5  0.5
+v  0.5  0.5  0.5
+v -0.5  0.5  0.5
+v -0.5 -0.5 -0.5
+v  0.5 -0.5 -0.5
+v  0.5  0.5 -0.5
+v -0.5  0.5 -0.5
+
+# 2. Coordenadas de Textura UV básicas (U V)
+vt 0.0 0.0
+vt 1.0 0.0
+vt 1.0 1.0
+vt 0.0 1.0
+
+# 3. Normales de Superficie (Vectores directores de las 6 caras)
+vn  0.0  0.0  1.0
+vn  0.0  0.0 -1.0
+vn  1.0  0.0  0.0
+vn -1.0  0.0  0.0
+vn  0.0  1.0  0.0
+vn  0.0 -1.0  0.0
+
+# 4. Definición de Caras (Formato: vértice/textura/normal)
+# Cara Frontal
+f 1/1/1 2/2/1 3/3/1 4/4/1
+# Cara Trasera
+f 6/1/2 5/2/2 8/3/2 7/4/2
+# Cara Derecha
+f 2/1/3 6/2/3 7/3/3 3/4/3
+# Cara Izquierda
+f 5/1/4 1/2/4 4/3/4 8/4/4
+# Cara Superior
+f 4/1/5 3/2/5 7/3/5 8/4/5
+# Cara Inferior
+f 5/1/6 6/2/6 2/3/6 1/4/6
