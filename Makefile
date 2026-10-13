@@ -10,7 +10,10 @@ OBJ_DIR = obj/
 
 RM = rm -f
 
-SRC = main.cpp
+SRC = main.cpp \
+	3DEngine.cpp \
+	ObjectsList.cpp \
+	Vector3.cpp
 
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(SRC))
 DEP = $(OBJ:.o=.d)
