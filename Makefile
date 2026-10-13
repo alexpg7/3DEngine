@@ -13,8 +13,10 @@ RM = rm -f
 SRC = main.cpp \
 	3DEngine.cpp \
 	ObjectsList.cpp \
+	Object.cpp \
 	Vector3.cpp \
-	Object.cpp
+	Vector2.cpp \
+	Triangle.cpp
 
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(SRC))
 DEP = $(OBJ:.o=.d)

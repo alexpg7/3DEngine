@@ -5,6 +5,11 @@ Vector2::Vector2()
 
 }
 
+Vector2::Vector2(const Vector2& copy)
+{
+	*this = copy;
+}
+
 Vector2::Vector2(float x, float y): _x(x), _y(y)
 {
 

@@ -10,7 +10,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <vector>
+#include <filesystem>
+#include <array>
+
+namespace fs = std::filesystem;
 
 
 class Vector3
@@ -23,6 +26,7 @@ class Vector3
 	public:
 		Vector3();
 		Vector3(float x, float y, float z);
+		Vector3(const Vector3& copy);
 		~Vector3();
 		Vector3& operator=(const Vector3& vec);
 		Vector3 operator+(const Vector3& vec);
@@ -40,11 +44,43 @@ class Vector2
 	public:
 		Vector2();
 		Vector2(float x, float y);
+		Vector2(const Vector2& copy);
 		~Vector2();
 		Vector2& operator=(const Vector2& vec);
 		Vector2 operator+(const Vector2& vec);
 		Vector2 operator-(const Vector2& vec);
 		float	norm();
+};
+
+class Triangle
+{
+	private:
+		Vector3	_p1;
+		Vector3	_p2;
+		Vector3	_p3;
+		Vector3	_norm;
+	public:
+		Triangle();
+		Triangle(const Triangle& copy);
+		Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 norm);
+		~Triangle();
+		Triangle& operator=(const Triangle& tri);
+};
+
+class Object
+{
+	private:
+		std::vector<Vector3>	_vertex;
+		std::vector<Vector3>	_normal;
+		std::vector<Vector2>	_uv;
+		std::vector<std::array<int, 3>>	_faces;; //0 -> vertex, 1 -> uv, 2 -> normal
+		std::vector<Triangle>	_triangles;
+	public:
+		Object();
+		~Object();
+		Object(const Object& copy);
+		Object& operator=(const Object& obj);
+		void parse(char *path);
 };
 
 class ObjectsList
@@ -60,32 +96,4 @@ class ObjectsList
 		ObjectsList& operator=(const ObjectsList& list);
 		void load();
 		void setPath(char *path);
-};
-
-class Object
-{
-	private:
-		std::vector<Vector3>	_vertex;
-		std::vector<Vector3>	_normal;
-		std::vector<Vector2>	_uv;
-		std::vector<int[3]>		_faces; //0 -> vertex, 1 -> uv, 2 -> normal
-		std::vector<Triangle>	_triangles;
-	public:
-		Object();
-		~Object();
-		Object& operator=(const Object& obj);
-};
-
-class Triangle
-{
-	private:
-		Vector3	_p1;
-		Vector3	_p2;
-		Vector3	_p3;
-		Vector3	_norm;
-	public:
-		Triangle();
-		Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 norm);
-		~Triangle();
-		Triangle& operator=(const Triangle& tri);
 };

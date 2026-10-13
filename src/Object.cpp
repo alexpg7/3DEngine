@@ -4,6 +4,11 @@ Object::Object()
 {
 }
 
+Object::Object(const Object& copy)
+{
+	*this = copy;
+}
+
 Object::~Object()
 {
 
@@ -20,4 +25,9 @@ Object&	Object::operator=(const Object& obj)
 		_triangles = obj._triangles;
 	}
 	return (*this);
+}
+
+void	Object::parse(char *path)
+{
+	std::cout << "Parsing " << path << std::endl;
 }
