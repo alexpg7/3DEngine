@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 
 
 class Vector3
@@ -29,10 +30,28 @@ class Vector3
 		float	norm();
 };
 
+class Vector2
+{
+	private:
+		float	_x;
+		float	_y;
+		float	_z;
+
+	public:
+		Vector2();
+		Vector2(float x, float y);
+		~Vector2();
+		Vector2& operator=(const Vector2& vec);
+		Vector2 operator+(const Vector2& vec);
+		Vector2 operator-(const Vector2& vec);
+		float	norm();
+};
+
 class ObjectsList
 {
 	private:
-		std::string	_path;
+		std::string			_path;
+		std::vector<Object>	_objs;
 	public:
 		ObjectsList();
 		ObjectsList(char *path);
@@ -40,4 +59,16 @@ class ObjectsList
 		ObjectsList& operator=(const ObjectsList& list);
 		void load();
 		void setPath(char *path);
+};
+
+class Object
+{
+	private:
+		std::vector<Vector3>	_vertex;
+		std::vector<Vector3>	_normal;
+		std::vector<Vector2>	_uv;
+	public:
+		Object();
+		~Object();
+		Object& operator=(const Object& obj);
 };
