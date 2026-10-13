@@ -52,6 +52,7 @@ class ObjectsList
 	private:
 		std::string			_path;
 		std::vector<Object>	_objs;
+		//lights
 	public:
 		ObjectsList();
 		ObjectsList(char *path);
@@ -67,8 +68,14 @@ class Object
 		std::vector<Vector3>	_vertex;
 		std::vector<Vector3>	_normal;
 		std::vector<Vector2>	_uv;
+		std::vector<Triangle>	_triangles;
 	public:
 		Object();
 		~Object();
 		Object& operator=(const Object& obj);
+};
+
+class Triangle
+{
+
 };
