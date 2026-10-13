@@ -80,6 +80,7 @@ class Face
 		Face& operator=(const Face& obj);
 
 		void addVertex(int vertex, int uv, int normal);
+		const std::vector<int>& getVertex() const;
 };
 
 class Object
@@ -88,7 +89,7 @@ class Object
 		std::vector<Vector3>	_vertex;
 		std::vector<Vector3>	_normal;
 		std::vector<Vector2>	_uv;
-		std::vector<std::array<int, 3>>	_faces;; //0 -> vertex, 1 -> uv, 2 -> normal
+		std::vector<Face>		_faces;
 		std::vector<Triangle>	_triangles;
 	public:
 		Object();

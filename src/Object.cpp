@@ -27,7 +27,143 @@ Object&	Object::operator=(const Object& obj)
 	return (*this);
 }
 
-void	Object::parse(char *path)
+static int parseIndex(const std::string& index, std::size_t count)
 {
-	std::cout << "Parsing " << path << std::endl;
+	if (index.empty())
+		return -1;
+
+	try
+	{
+		int value = std::stoi(index);
+
+		if (value > 0)
+			return value - 1;
+
+		if (value < 0 && static_cast<long long>(count) + value >= 0)
+			return static_cast<int>(count) + value;
+	}
+	catch (...)
+	{
+		return -1;
+	}
+
+	return -1;
+}
+
+void Object::parse(char *path)
+{
+	std::ifstream file(path);
+
+	if (!file.is_open())
+		return;
+
+	_vertex.clear();
+	_normal.clear();
+	_uv.clear();
+	_faces.clear();
+	_triangles.clear();
+
+	std::string line;
+
+	while (std::getline(file, line))
+	{
+		std::istringstream stream(line);
+		std::string type;
+
+		stream >> type;
+
+		if (type.empty() || type[0] == '#')
+			continue;
+
+		if (type == "v")
+		{
+			float x, y, z;
+
+			if (stream >> x >> y >> z)
+				_vertex.emplace_back(x, y, z);
+		}
+		else if (type == "vt")
+		{
+			float u, v;
+
+			if (stream >> u >> v)
+				_uv.emplace_back(u, v);
+		}
+		else if (type == "vn")
+		{
+			float x, y, z;
+
+			if (stream >> x >> y >> z)
+				_normal.emplace_back(x, y, z);
+		}
+		else if (type == "f")
+		{
+			Face face;
+			std::string token;
+
+			while (stream >> token)
+			{
+				if (token[0] == '#')
+					break;
+
+				std::string vertexIndex;
+				std::string uvIndex;
+				std::string normalIndex;
+
+				std::size_t firstSlash = token.find('/');
+				std::size_t secondSlash = std::string::npos;
+
+				if (firstSlash == std::string::npos)
+				{
+					vertexIndex = token;
+				}
+				else
+				{
+					vertexIndex = token.substr(0, firstSlash);
+
+					secondSlash = token.find('/', firstSlash + 1);
+
+					if (secondSlash == std::string::npos)
+					{
+						uvIndex = token.substr(firstSlash + 1);
+					}
+					else
+					{
+						uvIndex = token.substr(
+							firstSlash + 1,
+							secondSlash - firstSlash - 1
+						);
+
+						normalIndex = token.substr(secondSlash + 1);
+					}
+				}
+
+				int vertex = parseIndex(vertexIndex, _vertex.size());
+				int uv = parseIndex(uvIndex, _uv.size());
+				int normal = parseIndex(normalIndex, _normal.size());
+
+				if (vertex < 0 ||
+					static_cast<std::size_t>(vertex) >= _vertex.size())
+				{
+					face = Face();
+					break;
+				}
+
+				if (uv >= 0 &&
+					static_cast<std::size_t>(uv) >= _uv.size())
+					uv = -1;
+
+				if (normal >= 0 &&
+					static_cast<std::size_t>(normal) >= _normal.size())
+					normal = -1;
+
+				face.addVertex(vertex, uv, normal);
+			}
+
+			if (face.getVertex().size() >= 3)
+				_faces.push_back(face);
+		}
+	}
+
+	file.close();
 }

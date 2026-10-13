@@ -32,3 +32,8 @@ void Face::addVertex(int vertex, int uv, int normal)
 	_uv.push_back(uv);
 	_normal.push_back(normal);
 }
+
+const std::vector<int>& Face::getVertex() const
+{
+	return _vertex;
+}
