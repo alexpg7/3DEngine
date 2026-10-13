@@ -166,4 +166,34 @@ void Object::parse(char *path)
 	}
 
 	file.close();
+	this->triangulate();
+}
+
+void Object::triangulate()
+{
+	_triangles.clear();
+
+	for (const Face& face : _faces)
+	{
+		const std::vector<int>& indices = face.getVertex();
+
+		if (indices.size() < 3)
+			continue;
+
+		Vector3 p1 = _vertex[indices[0]];
+
+		for (std::size_t i = 1; i + 1 < indices.size(); ++i)
+		{
+			Vector3 p2 = _vertex[indices[i]];
+			Vector3 p3 = _vertex[indices[i + 1]];
+
+			Vector3 edge1 = p2 - p1;
+			Vector3 edge2 = p3 - p1;
+
+			Vector3 normal = edge1.cross(edge2);
+			normal.normalize();
+
+			_triangles.emplace_back(p1, p2, p3, normal);
+		}
+	}
 }

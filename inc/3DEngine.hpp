@@ -32,6 +32,8 @@ class Vector3
 		Vector3 operator+(const Vector3& vec);
 		Vector3 operator-(const Vector3& vec);
 		float	norm();
+		Vector3 cross(const Vector3& other) const;
+		void normalize();
 };
 
 class Vector2
@@ -97,6 +99,7 @@ class Object
 		Object(const Object& copy);
 		Object& operator=(const Object& obj);
 		void parse(char *path);
+		void triangulate();
 };
 
 class ObjectsList

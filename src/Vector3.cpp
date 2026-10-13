@@ -31,11 +31,6 @@ Vector3&	Vector3::operator=(const Vector3& vec)
 	return (*this);
 }
 
-float	Vector3::norm()
-{
-	return (sqrt(_x * _x + _y * _y + _z * _z));
-}
-
 Vector3	Vector3::operator+(const Vector3& vec)
 {
 	return Vector3(_x + vec._x, _y + vec._y, _z + vec._z);
@@ -44,4 +39,30 @@ Vector3	Vector3::operator+(const Vector3& vec)
 Vector3	Vector3::operator-(const Vector3& vec)
 {
 	return Vector3(_x - vec._x, _y - vec._y, _z - vec._z);
+}
+
+float	Vector3::norm()
+{
+	return (sqrt(_x * _x + _y * _y + _z * _z));
+}
+
+Vector3 Vector3::cross(const Vector3& other) const
+{
+	return Vector3(
+		_y * other._z - _z * other._y,
+		_z * other._x - _x * other._z,
+		_x * other._y - _y * other._x
+	);
+}
+
+void Vector3::normalize()
+{
+	float length = norm();
+
+	if (length > 0.0f)
+	{
+		_x /= length;
+		_y /= length;
+		_z /= length;
+	}
 }
