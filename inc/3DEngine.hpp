@@ -12,9 +12,9 @@
 #include <fstream>
 #include <filesystem>
 #include <array>
+#include <optional>
 
 namespace fs = std::filesystem;
-
 
 class Vector3
 {
@@ -52,6 +52,26 @@ class Vector2
 		Vector2 operator+(const Vector2& vec);
 		Vector2 operator-(const Vector2& vec);
 		float	norm();
+};
+
+class Player
+{
+	private:
+		Vector3	_position;
+		float	_theta;
+		float	_phi;
+
+	public:
+		Player();
+		Player(Vector3 position, float theta, float phi);
+		~Player();
+
+		Vector3 getPosition() const;
+		Vector3 getDirection() const;
+
+		void setPosition(Vector3 position);
+		void setTheta(float theta);
+		void setPhi(float phi);
 };
 
 class Triangle

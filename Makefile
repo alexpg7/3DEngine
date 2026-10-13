@@ -17,7 +17,8 @@ SRC = main.cpp \
 	Vector3.cpp \
 	Vector2.cpp \
 	Triangle.cpp \
-	Face.cpp
+	Face.cpp \
+	Player.cpp
 
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(SRC))
 DEP = $(OBJ:.o=.d)
