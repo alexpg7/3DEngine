@@ -54,6 +54,19 @@ class Vector2
 		float	norm();
 };
 
+class Triangle2D
+{
+	private:
+		sf::Vector2f _p1;
+		sf::Vector2f _p2;
+		sf::Vector2f _p3;
+
+	public:
+		Triangle2D(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3);
+
+		void draw(sf::RenderWindow& window) const;
+};
+
 class Player
 {
 	private:

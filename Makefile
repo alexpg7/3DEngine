@@ -17,6 +17,7 @@ SRC = main.cpp \
 	Vector3.cpp \
 	Vector2.cpp \
 	Triangle.cpp \
+	Triangle2D.cpp \
 	Face.cpp \
 	Player.cpp
 
