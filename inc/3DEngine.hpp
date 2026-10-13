@@ -68,6 +68,7 @@ class Object
 		std::vector<Vector3>	_vertex;
 		std::vector<Vector3>	_normal;
 		std::vector<Vector2>	_uv;
+		std::vector<int[3]>		_faces; //0 -> vertex, 1 -> uv, 2 -> normal
 		std::vector<Triangle>	_triangles;
 	public:
 		Object();
@@ -77,5 +78,14 @@ class Object
 
 class Triangle
 {
-
+	private:
+		Vector3	_p1;
+		Vector3	_p2;
+		Vector3	_p3;
+		Vector3	_norm;
+	public:
+		Triangle();
+		Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 norm);
+		~Triangle();
+		Triangle& operator=(const Triangle& tri);
 };
