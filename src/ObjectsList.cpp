@@ -18,15 +18,11 @@ ObjectsList&	ObjectsList::operator=(const ObjectsList& list)
 {
 	if (this != &list)
 	{
-		// do
+		_path = list._path;
+		_objs = list._objs;
 	}
 	return (*this);
 }
-
-#include <filesystem>
-#include <iostream>
-
-namespace fs = std::filesystem;
 
 void ObjectsList::load()
 {

@@ -67,6 +67,21 @@ class Triangle
 		Triangle& operator=(const Triangle& tri);
 };
 
+class Face
+{
+	private:
+		std::vector<int> _vertex;
+		std::vector<int> _uv;
+		std::vector<int> _normal;
+	public:
+		Face();
+		~Face();
+		Face(const Face& copy);
+		Face& operator=(const Face& obj);
+
+		void addVertex(int vertex, int uv, int normal);
+};
+
 class Object
 {
 	private:

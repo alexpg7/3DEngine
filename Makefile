@@ -16,7 +16,8 @@ SRC = main.cpp \
 	Object.cpp \
 	Vector3.cpp \
 	Vector2.cpp \
-	Triangle.cpp
+	Triangle.cpp \
+	Face.cpp
 
 OBJ = $(patsubst %.cpp, $(OBJ_DIR)%.o, $(SRC))
 DEP = $(OBJ:.o=.d)
@@ -45,7 +46,7 @@ $(OBJ_DIR)%.o: %.cpp
 # Link object files into an executable
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
-	@echo "😃 ${BGREEN}Compiled executable ${BYEL}$(NAME)${NC}"
+	@echo "😃 ${BGREEN}Compiled ${BYEL}$(NAME)${NC}"
 
 -include $(DEP)
 
@@ -60,7 +61,7 @@ fclean: clean
 
 test: $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LDLIBS) -o test.out
-	@echo "🧪 ${BGREEN}Compiled executable ${BYEL}test.out${NC}"
+	@echo "🧪 ${BGREEN}Compiled ${BYEL}test.out${NC}"
 
 re: fclean all
 
