@@ -46,3 +46,8 @@ Vector3&	Triangle::getP3()
 {
 	return _p3;
 }
+
+Vector3&	Triangle::getNormal()
+{
+	return _norm;
+}

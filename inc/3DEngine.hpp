@@ -119,6 +119,7 @@ class Triangle
 		Vector3&	getP1();
 		Vector3&	getP2();
 		Vector3&	getP3();
+		Vector3&	getNormal();
 };
 
 class Face
@@ -157,6 +158,7 @@ class Object
 		void	clearTriangles2D();
 		void	addTriangle2D(Triangle2D tri);
 		Triangle&	getTriangle(int index);
+		Face&	getFace(int index);
 		Triangle2D&	getTriangle2D(int index);
 };
 
