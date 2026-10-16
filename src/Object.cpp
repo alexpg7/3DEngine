@@ -176,24 +176,23 @@ void Object::triangulate()
 	for (const Face& face : _faces)
 	{
 		const std::vector<int>& indices = face.getVertex();
+		const std::vector<int>& indicesnorm = face.getNormals();
 
 		if (indices.size() < 3)
 			continue;
 
 		Vector3 p1 = _vertex[indices[0]];
+		Vector3 norm1 = _normal[indicesnorm[0]];
 
 		for (std::size_t i = 1; i + 1 < indices.size(); ++i)
 		{
 			Vector3 p2 = _vertex[indices[i]];
 			Vector3 p3 = _vertex[indices[i + 1]];
 
-			Vector3 edge1 = p2 - p1;
-			Vector3 edge2 = p3 - p1;
+			Vector3 norm2 = _normal[indicesnorm[i]];
+			Vector3 norm3 = _normal[indicesnorm[i + 1]];
 
-			Vector3 normal = edge1.cross(edge2);
-			normal.normalize();
-
-			_triangles.emplace_back(p1, p2, p3, normal);
+			_triangles.emplace_back(p1, p2, p3, norm1, norm2, norm3);
 		}
 	}
 }

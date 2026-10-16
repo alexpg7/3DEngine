@@ -34,6 +34,7 @@ void	calculate_2D(ObjectsList& objects, screen& screen, Player& player)
 			};
 
 			sf::Vector2f projected[3];
+			float		zs[3];
 			bool valid = true;
 
 			for (int k = 0; k < 3; k++)
@@ -42,7 +43,7 @@ void	calculate_2D(ObjectsList& objects, screen& screen, Player& player)
 
 				float xCamera = relative.dot(right);
 				float yCamera = relative.dot(up);
-				float zCamera = relative.dot(forward);
+				float zCamera = relative.dot(player.getDirection());
 
 				if (zCamera <= 0.00001f)
 				{
@@ -55,11 +56,15 @@ void	calculate_2D(ObjectsList& objects, screen& screen, Player& player)
 
 				projected[k].y = screen.Y / 2.0f
 					- focal * yCamera / zCamera;
+
+				zs[k] = zCamera;
 			}
 
 			if (valid)
 			{
-				object.addTriangle2D(Triangle2D(projected[0], projected[1], projected[2]));
+				object.addTriangle2D(Triangle2D(projected[0], projected[1], projected[2],
+										tri.getNormal1(), tri.getNormal2(), tri.getNormal3(),
+										zs[0], zs[1], zs[2]));
 			}
 		}
 	}
@@ -77,6 +82,8 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 		return -1;
 
 	sf::Sprite sprite(texture);
+
+	std::vector<float> depthBuffer(screen.X * screen.Y);
 
 	while (window.isOpen())
 	{
@@ -97,7 +104,7 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 		image.create(screen.X, screen.Y, sf::Color::Black);
 
 		// Rasterizar los triángulos
-		paint_all_triangles(objects, image, screen);
+		paint_all_triangles(objects, image, screen, depthBuffer);
 
 		// Actualizar la textura y mostrarla
 		texture.update(image);
@@ -105,6 +112,7 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 		window.clear(sf::Color::Black);
 		window.draw(sprite);
 		window.display();
+		std::fill(depthBuffer.begin(), depthBuffer.end(), std::numeric_limits<float>::infinity());
 	}
 
 	return 0;

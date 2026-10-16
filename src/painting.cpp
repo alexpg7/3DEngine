@@ -28,25 +28,15 @@ void	paint_all_vertex(sf::RenderWindow&window, ObjectsList& objects)//screen& sc
 	}
 }
 
-void paint_triangle(Triangle2D& triangle, sf::Image& image, screen& screen, Vector3 normal)
+void paint_triangle(Triangle2D& triangle, sf::Image& image, screen& screen, std::vector<float>& depthBuffer)
 {
 	sf::Vector2f p1 = triangle.getP1();
 	sf::Vector2f p2 = triangle.getP2();
 	sf::Vector2f p3 = triangle.getP3();
 
 	// Luz direccional fija
-	Vector3 lightDirection(1.0f, -1.0f, -2.0f);
+	Vector3 lightDirection(1.0f, -2.0f, -3.0f);
 	lightDirection.normalize();
-
-	normal.normalize();
-
-	float intensity = std::max(
-		0.0f,
-		normal.dot(lightDirection * -1.0f)
-	);
-
-	const float ambientLight = 0.15f;
-	intensity = ambientLight + (1.0f - ambientLight) * intensity;
 
 	// Bounding box
 	int xmin = static_cast<int>(std::floor(
@@ -66,25 +56,74 @@ void paint_triangle(Triangle2D& triangle, sf::Image& image, screen& screen, Vect
 	xmax = std::min(xmax, screen.X - 1);
 	ymax = std::min(ymax, screen.Y - 1);
 
-	sf::Uint8 colorValue = static_cast<sf::Uint8>(255.0f * intensity);
-	sf::Color color(colorValue, colorValue, colorValue);
-
 	// Rasterizar
 	for (int y = ymin; y <= ymax; ++y)
 	{
 		for (int x = xmin; x <= xmax; ++x)
 		{
-			if (triangle.isInsideTriangle(
-					static_cast<float>(x) + 0.5f,
-					static_cast<float>(y) + 0.5f))
+			float px = x + 0.5f;
+			float py = y + 0.5f;
+
+			if (!triangle.isInsideTriangle(px, py))
+				continue;
+
+			float denom =
+				(p2.y - p3.y) * (p1.x - p3.x) +
+				(p3.x - p2.x) * (p1.y - p3.y);
+
+			if (std::abs(denom) < 1e-6f)
+				continue;
+
+			float a =
+				((p2.y - p3.y) * (px - p3.x) +
+				(p3.x - p2.x) * (py - p3.y)) / denom;
+
+			float b =
+				((p3.y - p1.y) * (px - p3.x) +
+				(p1.x - p3.x) * (py - p3.y)) / denom;
+
+			float c = 1.0f - a - b;
+
+			Vector3 normal =
+				triangle.getNormal1() * a +
+				triangle.getNormal2() * b +
+				triangle.getNormal3() * c;
+
+			normal.normalize();
+
+			float intensity = std::max(
+				0.0f,
+				normal.dot(lightDirection * -1.0f)
+			);
+
+			const float ambientLight = 0.15f;
+			intensity = ambientLight + (1.0f - ambientLight) * intensity;
+
+			sf::Uint8 value = static_cast<sf::Uint8>(255.0f * intensity);
+			sf::Color color(value, value, value);
+
+			float invZ =
+				a / triangle.getZ1() +
+				b / triangle.getZ2() +
+				c / triangle.getZ3();
+
+			if (invZ <= 0.0f)
+				continue;
+
+			float z = 1.0f / invZ;
+
+			int index = y * screen.X + x;
+
+			if (z < depthBuffer[index])
 			{
+				depthBuffer[index] = z;
 				image.setPixel(x, y, color);
 			}
 		}
 	}
 }
 
-void paint_all_triangles(ObjectsList& objects, sf::Image& image, screen& screen)
+void paint_all_triangles(ObjectsList& objects, sf::Image& image, screen& screen, std::vector<float>& depthBuffer)
 {
 	for (int i = 0; i < objects.size(); ++i)
 	{
@@ -94,7 +133,7 @@ void paint_all_triangles(ObjectsList& objects, sf::Image& image, screen& screen)
 		{
 			Triangle2D& triangle = object.getTriangle2D(j);
 
-			paint_triangle(triangle, image, screen, object.getTriangle(j).getNormal());
+			paint_triangle(triangle, image, screen, depthBuffer);
 		}
 	}
 }

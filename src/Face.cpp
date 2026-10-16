@@ -37,3 +37,8 @@ const std::vector<int>& Face::getVertex() const
 {
 	return _vertex;
 }
+
+const std::vector<int>& Face::getNormals() const
+{
+	return _normal;
+}

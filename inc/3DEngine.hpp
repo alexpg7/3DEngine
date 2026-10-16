@@ -12,7 +12,7 @@
 #include <fstream>
 #include <filesystem>
 #include <array>
-#include <optional>
+#include <limits>
 
 namespace fs = std::filesystem;
 
@@ -70,12 +70,26 @@ class Triangle2D
 		sf::Vector2f _p1;
 		sf::Vector2f _p2;
 		sf::Vector2f _p3;
+		Vector3		_norm1;
+		Vector3		_norm2;
+		Vector3		_norm3;
+		float		_z1;
+		float		_z2;
+		float		_z3;
 
 	public:
-		Triangle2D(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3);
+		Triangle2D(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3,
+								Vector3 norm1, Vector3 norm2, Vector3 norm3,
+								float z1, float z2, float z3);
 		sf::Vector2f&	getP1();
 		sf::Vector2f&	getP2();
 		sf::Vector2f&	getP3();
+		float&	getZ1();
+		float&	getZ2();
+		float&	getZ3();
+		Vector3&	getNormal1();
+		Vector3&	getNormal2();
+		Vector3&	getNormal3();
 		bool			isInsideTriangle(float x, float y);
 };
 
@@ -109,17 +123,21 @@ class Triangle
 		Vector3	_p1;
 		Vector3	_p2;
 		Vector3	_p3;
-		Vector3	_norm;
+		Vector3	_norm1;
+		Vector3	_norm2;
+		Vector3	_norm3;
 	public:
 		Triangle();
 		Triangle(const Triangle& copy);
-		Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 norm);
+		Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 norm1, Vector3 norm2, Vector3 norm3);
 		~Triangle();
 		Triangle& operator=(const Triangle& tri);
 		Vector3&	getP1();
 		Vector3&	getP2();
 		Vector3&	getP3();
-		Vector3&	getNormal();
+		Vector3&	getNormal1();
+		Vector3&	getNormal2();
+		Vector3&	getNormal3();
 };
 
 class Face
@@ -136,6 +154,7 @@ class Face
 
 		void addVertex(int vertex, int uv, int normal);
 		const std::vector<int>& getVertex() const;
+		const std::vector<int>& getNormals() const;
 };
 
 class Object
@@ -185,4 +204,4 @@ void	updatePlayer(sf::RenderWindow& window, Player& player, float deltaTime);
 // paintings
 void	paint_all_vertex(sf::RenderWindow&window, ObjectsList& objects);
 void	paint_triangle(Triangle2D& triangle, sf::Image& image, screen& screen);
-void	paint_all_triangles(ObjectsList& objects, sf::Image& image, screen& screen);
+void	paint_all_triangles(ObjectsList& objects, sf::Image& image, screen& screen, std::vector<float>& depthBuffer);
