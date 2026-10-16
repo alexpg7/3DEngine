@@ -44,7 +44,7 @@ void	calculate_2D(ObjectsList& objects, screen& screen, Player& player)
 				float yCamera = relative.dot(up);
 				float zCamera = relative.dot(forward);
 
-				if (zCamera <= 0.001f)
+				if (zCamera <= 0.00001f)
 				{
 					valid = false;
 					break;
@@ -65,37 +65,18 @@ void	calculate_2D(ObjectsList& objects, screen& screen, Player& player)
 	}
 }
 
-void	paint_all_vertex(sf::RenderWindow&window, ObjectsList& objects)//screen& screen, ObjectsList& objects)
-{
-	const float radius = 20.0f;
-
-	sf::CircleShape point(radius);
-	point.setFillColor(sf::Color::Red);
-	point.setOrigin(sf::Vector2f(radius, radius));
-
-	for (int i = 0; i < objects.size(); i++)
-	{
-		Object& object = objects[i];
-
-		for (int j = 0; j < object.triangleNum(); j++)
-		{
-			Triangle2D& tri = object.getTriangle2D(j);
-
-			point.setPosition(tri.getP1());
-			window.draw(point);
-
-			point.setPosition(tri.getP2());
-			window.draw(point);
-
-			point.setPosition(tri.getP3());
-			window.draw(point);
-		}
-	}
-}
-
 int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Player& player)
 {
 	sf::Clock clock;
+
+	sf::Image image;
+	image.create(screen.X, screen.Y, sf::Color::Black);
+
+	sf::Texture texture;
+	if (!texture.create(screen.X, screen.Y))
+		return -1;
+
+	sf::Sprite sprite(texture);
 
 	while (window.isOpen())
 	{
@@ -109,13 +90,20 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 
 		float deltaTime = clock.restart().asSeconds();
 
-		calculate_2D(objects, screen, player);
 		updatePlayer(window, player, deltaTime);
+		calculate_2D(objects, screen, player);
 
-		// Render
+		// Limpiar la imagen
+		image.create(screen.X, screen.Y, sf::Color::Black);
+
+		// Rasterizar los triángulos
+		paint_all_triangles(objects, image, screen);
+
+		// Actualizar la textura y mostrarla
+		texture.update(image);
+
 		window.clear(sf::Color::Black);
-
-		paint_all_vertex(window, objects);//screen, objects);
+		window.draw(sprite);
 		window.display();
 	}
 

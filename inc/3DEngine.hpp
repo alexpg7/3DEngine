@@ -76,6 +76,7 @@ class Triangle2D
 		sf::Vector2f&	getP1();
 		sf::Vector2f&	getP2();
 		sf::Vector2f&	getP3();
+		bool			isInsideTriangle(float x, float y);
 };
 
 class Player
@@ -178,3 +179,8 @@ class ObjectsList
 
 // utils
 void	updatePlayer(sf::RenderWindow& window, Player& player, float deltaTime);
+
+// paintings
+void	paint_all_vertex(sf::RenderWindow&window, ObjectsList& objects);
+void	paint_triangle(Triangle2D& triangle, sf::Image& image, screen& screen);
+void	paint_all_triangles(ObjectsList& objects, sf::Image& image, screen& screen);

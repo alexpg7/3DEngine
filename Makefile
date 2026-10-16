@@ -12,6 +12,7 @@ RM = rm -f
 
 SRC = main.cpp \
 	updates.cpp \
+	painting.cpp \
 	3DEngine.cpp \
 	ObjectsList.cpp \
 	Object.cpp \
