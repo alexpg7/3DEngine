@@ -3,6 +3,8 @@
 # Prerequisites
 *.d
 
+.dode
+
 # Compiled Object files
 *.slo
 *.lo
