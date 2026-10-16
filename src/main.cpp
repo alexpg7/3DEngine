@@ -105,6 +105,7 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 
 		// Rasterizar los triángulos
 		paint_all_triangles(objects, image, screen, depthBuffer);
+		//paint_all_vertex(window, objects);
 
 		// Actualizar la textura y mostrarla
 		texture.update(image);

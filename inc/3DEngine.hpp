@@ -97,8 +97,11 @@ class Player
 {
 	private:
 		Vector3	_position;
+		Vector3	_lastSpeed;
 		float	_theta;
 		float	_phi;
+		float	_vz;
+		bool	_onGround;
 
 	public:
 		Player();
@@ -109,12 +112,18 @@ class Player
 		float	fov;
 		Vector3 getPosition() const;
 		Vector3 getDirection() const;
+		Vector3	getLastSpeed();
+		void	setLastSpeed(Vector3 speed);
 
 		void setPosition(Vector3 position);
 		void setTheta(float theta);
 		void setPhi(float phi);
 		float getTheta();
 		float getPhi();
+		bool	isOnGround();
+		void	setOnGround(bool state);
+		void	setVerticalVelocity(float v);
+		float	getVerticalVelocity();
 };
 
 class Triangle
