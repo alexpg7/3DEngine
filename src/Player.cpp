@@ -51,3 +51,13 @@ void Player::setPhi(float phi)
 {
 	_phi = phi;
 }
+
+float Player::getTheta()
+{
+	return _theta;
+}
+
+float Player::getPhi()
+{
+	return _phi;
+}

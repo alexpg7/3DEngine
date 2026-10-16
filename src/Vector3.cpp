@@ -31,6 +31,22 @@ Vector3&	Vector3::operator=(const Vector3& vec)
 	return (*this);
 }
 
+Vector3 Vector3::operator*(const float value)
+{
+	return Vector3(_x * value, _y * value, _z * value);
+}
+
+float&	Vector3::operator[](const int index)
+{
+	if (index == 0)
+		return _x;
+	if (index == 1)
+		return _y;
+	if (index == 2)
+		return _z;
+	return _x;
+}
+
 Vector3	Vector3::operator+(const Vector3& vec)
 {
 	return Vector3(_x + vec._x, _y + vec._y, _z + vec._z);

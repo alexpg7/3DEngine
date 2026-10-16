@@ -36,6 +36,8 @@ class Vector3
 		Vector3(const Vector3& copy);
 		~Vector3();
 		Vector3& operator=(const Vector3& vec);
+		float& operator[](const int index);
+		Vector3 operator*(const float value);
 		Vector3 operator+(const Vector3& vec);
 		Vector3 operator-(const Vector3& vec);
 		float	norm();
@@ -96,6 +98,8 @@ class Player
 		void setPosition(Vector3 position);
 		void setTheta(float theta);
 		void setPhi(float phi);
+		float getTheta();
+		float getPhi();
 };
 
 class Triangle
@@ -171,3 +175,6 @@ class ObjectsList
 		void setPath(char *path);
 		int	size();
 };
+
+// utils
+void	updatePlayer(sf::RenderWindow& window, Player& player, float deltaTime);

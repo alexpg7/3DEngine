@@ -44,8 +44,6 @@ void	calculate_2D(ObjectsList& objects, screen& screen, Player& player)
 				float yCamera = relative.dot(up);
 				float zCamera = relative.dot(forward);
 
-				// No proyectar puntos detrás o demasiado cerca
-				// de la cámara.
 				if (zCamera <= 0.001f)
 				{
 					valid = false;
@@ -97,6 +95,8 @@ void	paint_all_vertex(sf::RenderWindow&window, ObjectsList& objects)//screen& sc
 
 int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Player& player)
 {
+	sf::Clock clock;
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -107,14 +107,16 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 				window.close();
 		}
 
+		float deltaTime = clock.restart().asSeconds();
+
 		calculate_2D(objects, screen, player);
+		updatePlayer(window, player, deltaTime);
 
 		// Render
 		window.clear(sf::Color::Black);
 
 		paint_all_vertex(window, objects);//screen, objects);
 		window.display();
-		std::cout << "fps" << std::endl;
 	}
 
 	return 0;

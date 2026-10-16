@@ -11,6 +11,7 @@ OBJ_DIR = obj/
 RM = rm -f
 
 SRC = main.cpp \
+	updates.cpp \
 	3DEngine.cpp \
 	ObjectsList.cpp \
 	Object.cpp \
