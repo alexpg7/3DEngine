@@ -24,6 +24,11 @@ ObjectsList&	ObjectsList::operator=(const ObjectsList& list)
 	return (*this);
 }
 
+Object& ObjectsList::operator[](const int index)
+{
+	return _objs[index];
+}
+
 void ObjectsList::load()
 {
 	int	n = 0;
@@ -51,4 +56,9 @@ void ObjectsList::load()
 void	ObjectsList::setPath(char *path)
 {
 	_path = path;
+}
+
+int	ObjectsList::size()
+{
+	return _objs.size();
 }

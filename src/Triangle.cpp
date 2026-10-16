@@ -31,3 +31,18 @@ Triangle&	Triangle::operator=(const Triangle& tri)
 	}
 	return (*this);
 }
+
+Vector3&	Triangle::getP1()
+{
+	return _p1;
+}
+
+Vector3&	Triangle::getP2()
+{
+	return _p2;
+}
+
+Vector3&	Triangle::getP3()
+{
+	return _p3;
+}

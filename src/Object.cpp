@@ -197,3 +197,23 @@ void Object::triangulate()
 		}
 	}
 }
+
+int	Object::triangleNum()
+{
+	return _triangles.size();
+}
+
+void	Object::clearTriangles2D()
+{
+	_triangles2D.clear();
+}
+
+void	Object::addTriangle2D(Triangle2D tri)
+{
+	_triangles2D.push_back(tri);
+}
+
+Triangle&	Object::getTriangle(int index)
+{
+	return _triangles[index];
+}

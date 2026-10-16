@@ -16,6 +16,13 @@
 
 namespace fs = std::filesystem;
 
+struct screen
+{
+	int X;
+	int Y;
+	int fps;
+};
+
 class Vector3
 {
 	private:
@@ -100,6 +107,9 @@ class Triangle
 		Triangle(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 norm);
 		~Triangle();
 		Triangle& operator=(const Triangle& tri);
+		Vector3&	getP1();
+		Vector3&	getP2();
+		Vector3&	getP3();
 };
 
 class Face
@@ -126,6 +136,7 @@ class Object
 		std::vector<Vector2>	_uv;
 		std::vector<Face>		_faces;
 		std::vector<Triangle>	_triangles;
+		std::vector<Triangle2D>	_triangles2D;
 	public:
 		Object();
 		~Object();
@@ -133,6 +144,10 @@ class Object
 		Object& operator=(const Object& obj);
 		void parse(char *path);
 		void triangulate();
+		int	triangleNum();
+		void	clearTriangles2D();
+		void	addTriangle2D(Triangle2D tri);
+		Triangle&	getTriangle(int index);
 };
 
 class ObjectsList
@@ -146,6 +161,8 @@ class ObjectsList
 		ObjectsList(char *path);
 		~ObjectsList();
 		ObjectsList& operator=(const ObjectsList& list);
+		Object& operator[](const int index);
 		void load();
 		void setPath(char *path);
+		int	size();
 };
