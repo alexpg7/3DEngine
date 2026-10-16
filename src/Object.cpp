@@ -217,3 +217,8 @@ Triangle&	Object::getTriangle(int index)
 {
 	return _triangles[index];
 }
+
+Triangle2D&	Object::getTriangle2D(int index)
+{
+	return _triangles2D[index];
+}

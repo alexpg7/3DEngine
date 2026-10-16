@@ -40,6 +40,7 @@ class Vector3
 		Vector3 operator-(const Vector3& vec);
 		float	norm();
 		Vector3 cross(const Vector3& other) const;
+		float	dot(const Vector3& other) const;
 		void normalize();
 };
 
@@ -70,8 +71,9 @@ class Triangle2D
 
 	public:
 		Triangle2D(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3);
-
-		void draw(sf::RenderWindow& window) const;
+		sf::Vector2f&	getP1();
+		sf::Vector2f&	getP2();
+		sf::Vector2f&	getP3();
 };
 
 class Player
@@ -83,9 +85,11 @@ class Player
 
 	public:
 		Player();
-		Player(Vector3 position, float theta, float phi);
+		Player(Vector3 position, float theta, float phi, float focal, float fov);
 		~Player();
 
+		float	focal;
+		float	fov;
 		Vector3 getPosition() const;
 		Vector3 getDirection() const;
 
@@ -148,6 +152,7 @@ class Object
 		void	clearTriangles2D();
 		void	addTriangle2D(Triangle2D tri);
 		Triangle&	getTriangle(int index);
+		Triangle2D&	getTriangle2D(int index);
 };
 
 class ObjectsList

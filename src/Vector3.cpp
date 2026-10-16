@@ -55,6 +55,11 @@ Vector3 Vector3::cross(const Vector3& other) const
 	);
 }
 
+float Vector3::dot(const Vector3& other) const
+{
+	return _x * other._x + _y * other._y + _z * other._z;
+}
+
 void Vector3::normalize()
 {
 	float length = norm();
