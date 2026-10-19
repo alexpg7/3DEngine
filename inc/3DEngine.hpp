@@ -81,6 +81,7 @@ class Triangle2D
 		Triangle2D(sf::Vector2f p1, sf::Vector2f p2, sf::Vector2f p3,
 								Vector3 norm1, Vector3 norm2, Vector3 norm3,
 								float z1, float z2, float z3);
+		Triangle2D();
 		sf::Vector2f&	getP1();
 		sf::Vector2f&	getP2();
 		sf::Vector2f&	getP3();

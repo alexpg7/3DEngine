@@ -86,4 +86,10 @@ void Vector3::normalize()
 		_y /= length;
 		_z /= length;
 	}
+	else
+	{
+		_x = 0.0f;
+		_y = 0.0f;
+		_z = 0.0f;
+	}
 }

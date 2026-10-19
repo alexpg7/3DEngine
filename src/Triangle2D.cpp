@@ -16,6 +16,19 @@ _z3(z3)
 
 }
 
+Triangle2D::Triangle2D():
+_p1(0.0f, 0.0f),
+_p2(0.0f, 0.0f),
+_p3(0.0f, 0.0f),
+_norm1(0.0f, 0.0f, 0.0f),
+_norm2(0.0f, 0.0f, 0.0f),
+_norm3(0.0f, 0.0f, 0.0f),
+_z1(0.0f),
+_z2(0.0f),
+_z3(0.0f)
+{
+}
+
 sf::Vector2f&	Triangle2D::getP1()
 {
 	return _p1;
