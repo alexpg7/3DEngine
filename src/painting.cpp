@@ -84,6 +84,22 @@ void paint_triangle(Triangle2D& triangle, sf::Image& image, screen& screen, std:
 
 			float c = 1.0f - a - b;
 
+			//
+			float invZ =
+				a / triangle.getZ1() +
+				b / triangle.getZ2() +
+				c / triangle.getZ3();
+
+			if (invZ <= 0.0f)
+				continue;
+
+			float z = 1.0f / invZ;
+
+			int index = y * screen.X + x;
+
+			if (z > depthBuffer[index])
+				continue ;
+
 			Vector3 normal =
 				triangle.getNormal1() * a +
 				triangle.getNormal2() * b +
@@ -101,24 +117,8 @@ void paint_triangle(Triangle2D& triangle, sf::Image& image, screen& screen, std:
 
 			sf::Uint8 value = static_cast<sf::Uint8>(255.0f * intensity);
 			sf::Color color(value, value, value);
-
-			float invZ =
-				a / triangle.getZ1() +
-				b / triangle.getZ2() +
-				c / triangle.getZ3();
-
-			if (invZ <= 0.0f)
-				continue;
-
-			float z = 1.0f / invZ;
-
-			int index = y * screen.X + x;
-
-			if (z < depthBuffer[index])
-			{
-				depthBuffer[index] = z;
-				image.setPixel(x, y, color);
-			}
+			depthBuffer[index] = z;
+			image.setPixel(x, y, color);
 		}
 	}
 }

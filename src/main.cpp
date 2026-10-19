@@ -84,6 +84,8 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 	sf::Sprite sprite(texture);
 
 	std::vector<float> depthBuffer(screen.X * screen.Y);
+	//int n = 0;
+	//float ttime = 0.0;
 
 	while (window.isOpen())
 	{
@@ -96,6 +98,7 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 		}
 
 		float deltaTime = clock.restart().asSeconds();
+		//ttime += deltaTime;
 
 		updatePlayer(window, player, deltaTime);
 		calculate_2D(objects, screen, player);
@@ -113,6 +116,15 @@ int	game_loop(ObjectsList& objects, sf::RenderWindow& window, screen& screen, Pl
 		window.clear(sf::Color::Black);
 		window.draw(sprite);
 		window.display();
+
+		//fps counter
+		/*
+		n = (n + 1) % 600;
+		if (n == 0)
+		{
+			std::cout << (1 / ttime * 600) << " fps" << std::endl;
+			ttime = 0.0;
+		}*/
 		std::fill(depthBuffer.begin(), depthBuffer.end(), std::numeric_limits<float>::infinity());
 	}
 
