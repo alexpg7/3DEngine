@@ -1,6 +1,6 @@
 #include "3DEngine.hpp"
 
-ObjectsList::ObjectsList(): _path(nullptr)
+ObjectsList::ObjectsList(): _path("")
 {
 }
 
@@ -35,6 +35,7 @@ void ObjectsList::load()
 	if (!fs::exists(_path) || !fs::is_directory(_path))
 	{
 		std::cerr << "Error: invalid directory: " << _path << '\n';
+		throw std::exception();
 		return;
 	}
 
@@ -50,7 +51,10 @@ void ObjectsList::load()
 		n++;
 	}
 	if (n == 0)
+	{
 		std::cerr << "Warning: no .obj files where found in " << _path << '\n';
+		throw std::exception();
+	}
 }
 
 void	ObjectsList::setPath(char *path)

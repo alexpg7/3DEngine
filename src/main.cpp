@@ -134,13 +134,32 @@ int	main(int narg, char *argv[])
 	screen.Y = 900;
 	screen.fps = 60;
 
-	ObjectsList o_list(argv[1]);
+	ObjectsList o_list;
+
+	try
+	{
+		o_list.setPath(argv[1]);
+		o_list.load();
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << '\n';
+		return 1;
+	}
 
 	sf::RenderWindow window(sf::VideoMode(screen.X, screen.Y), "Low Poly Engine");
 	window.setFramerateLimit(screen.fps);
 
 	Player player;
 
-	game_loop(o_list, window, screen, player);
+	try
+	{
+		game_loop(o_list, window, screen, player);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "Something went wrong during the execution" << std::endl;
+		std::cerr << e.what() << '\n';
+	}
 	return 0;
 }
